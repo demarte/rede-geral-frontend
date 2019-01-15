@@ -1,0 +1,68 @@
+<div class="text-center mt-3 mb-3">
+  
+    <table class="table table-striped" [mfData]="data | filterByNome: filterNome : filterIp" 
+    #mf="mfDataTable" [mfRowsOnPage]="size" >
+        <thead>
+            <tr>
+                <th style="width: 20%">
+                   <app-search placeholder="Equipamento" (onTyping)='filterNome = $event'></app-search>
+                </th>
+                <th style="width: 20%">
+                    <app-search placeholder="IP" (onTyping)='filterIp = $event'></app-search>
+                </th>
+                <th style="width: 10%">
+                    <mfDefaultSorter by="sw.nome">Switch</mfDefaultSorter>
+                </th>
+                <th style="width: 5%">
+                    <mfDefaultSorter by="porta">Porta</mfDefaultSorter>
+                </th>
+                <th style="width: 5%">
+                    <mfDefaultSorter by="sw.localizacao.localizacao">Localização</mfDefaultSorter>
+                </th>
+                <th style="width: 5%">
+                    <mfDefaultSorter by="tipo">Tipo</mfDefaultSorter>
+                </th>
+                <th style="width: 5%">
+                    <mfDefaultSorter by="interfaceDeRede">Interface</mfDefaultSorter>
+                </th>
+                <th style="width: 20%">
+                    <mfDefaultSorter by="vlan.nome">Vlans</mfDefaultSorter>
+                </th>
+                <th style="width: 10%">
+                    <mfDefaultSorter by="equipamento.login">Login</mfDefaultSorter>
+                </th>
+                <th style="width: 10%">
+                    <mfDefaultSorter by="equipamento.senha">Senha</mfDefaultSorter>
+                </th>
+                <th style="width: 5%">
+                    <mfDefaultSorter by="equipamento.monitoravel">Monitoravel</mfDefaultSorter>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of mf.data" >
+                <td>{{item.equipamento.nome}}</td>
+                <td>{{item.equipamento.ip}}</td>
+                <td>{{item.sw.nome}}</td>
+                <td>{{item.porta}}</td>
+                <td>{{item.sw.localizacao.localizacao}}</td>
+                <td>{{item.tipo}}</td>
+                <td>{{item.interfaceDeRede}}</td>
+                <td><span *ngFor="let vlan of item.vlan">{{vlan.nome}} </span></td>
+                <td>{{item.equipamento.login}}</td>
+                <td>{{item.equipamento.senha}}</td>
+                <td [ngClass]="{'monitoravel' : item.equipamento.monitoravel}">{{item.equipamento.monitoravel}}</td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="4">
+                    <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
+                </td>
+            </tr>
+            <p class="text-center text-muted" *ngIf="!mf.data.length">
+                Nenhum registro encontrado
+            </p>
+        </tfoot>
+    </table>
+</div>

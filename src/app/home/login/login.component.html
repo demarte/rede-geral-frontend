@@ -1,0 +1,27 @@
+
+<h1 class="h3 mb-3 font-weight-normal">Login</h1>
+
+<form [formGroup]="loginForm" class="form-signin" >   
+      <div class="form-group">
+          <input formControlName="userName" type="text" id="inputEmail" class="form-control" placeholder="Usuário" autoFocus />
+          <app-vmessage 
+                *ngIf="loginForm.get('userName').errors?.required" 
+                text="Usuário requerido!"> 
+          </app-vmessage>
+      </div>
+      <div class="form-group">
+          <input formControlName="password" type="password" id="inputPassword" class="form-control" placeholder="Senha"  />
+          <app-vmessage 
+                *ngIf="loginForm.get('password').errors?.required" 
+                text="Senha requerida!"> 
+          </app-vmessage>
+      </div>
+      <div class="checkbox mb-3">
+          <label>
+          <input type="checkbox" value="remember-me"/> Lembre-me
+          </label>
+      </div>
+      <button [disabled]="loginForm.invalid" class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+</form>
+<p>Não é usuário? <a>Cadastre</a></p>
+<p class="mt-5 mb-3 text-muted">&copy; EPTV - 2018 - Documentação de redes</p>

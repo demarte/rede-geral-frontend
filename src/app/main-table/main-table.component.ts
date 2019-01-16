@@ -1,7 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Subject } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
  
 import { Connection } from '../models/connection';
 
@@ -13,7 +11,8 @@ import { Connection } from '../models/connection';
 export class MainTableComponent implements OnInit {
     
     filterNome: string = '';
-    filterIp: string = ''
+    filterIp: string = '';
+    filterSwitch: string = '';
     data: Connection[] = [];
     size: number;
     

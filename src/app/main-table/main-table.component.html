@@ -1,6 +1,6 @@
 <div class="text-center mt-3 mb-3">
   
-    <table class="table table-striped" [mfData]="data | filterByNome: filterNome : filterIp" 
+    <table class="table table-striped" [mfData]="data | filterByNome: filterNome : filterIp : filterSwitch" 
     #mf="mfDataTable" [mfRowsOnPage]="size" >
         <thead>
             <tr>
@@ -10,8 +10,8 @@
                 <th style="width: 20%">
                     <app-search placeholder="IP" (onTyping)='filterIp = $event'></app-search>
                 </th>
-                <th style="width: 10%">
-                    <mfDefaultSorter by="sw.nome">Switch</mfDefaultSorter>
+                <th style="width: 20%">
+                    <app-search placeholder="Switch" (onTyping)='filterSwitch = $event'></app-search>
                 </th>
                 <th style="width: 5%">
                     <mfDefaultSorter by="porta">Porta</mfDefaultSorter>

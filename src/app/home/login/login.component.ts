@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { AuthService } from 'src/app/core/auth/auth.service';
+import { PlatformDetector } from 'src/app/core/platform-detector/platform-detector.service';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +17,8 @@ export class LoginComponent implements OnInit {
 
   constructor(private formBuilder : FormBuilder,
               private authService : AuthService,
-              private router : Router) { }
+              private router : Router,
+              private platformService : PlatformDetector) { }
 
   ngOnInit() {
 
@@ -34,11 +36,14 @@ export class LoginComponent implements OnInit {
     this.authService
         .authenticate(userName, password)
         .subscribe( 
-          () => this.router.navigate(['connection']),     
+          () => 
+            this.router.navigate(['connection']),     
           err => {     
             console.log(err); 
             this.loginForm.reset();
-            this.userNameInput.nativeElement.focus();
+            //detectar a plataforma, se for browser, pode manipular diretamente o elemento do dom
+            this.platformService.isPlatformBrowser() &&  
+                this.userNameInput.nativeElement.focus();
             alert('Usuário ou senha inválidos');   
         })
       

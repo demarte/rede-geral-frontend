@@ -11,34 +11,35 @@ import { PlatformDetector } from 'src/app/core/platform-detector/platform-detect
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-
+  
   loginForm: FormGroup;
   @ViewChild('userNameInput') userNameInput: ElementRef<HTMLInputElement>; 
-
-  constructor(private formBuilder : FormBuilder,
-              private authService : AuthService,
-              private router : Router,
-              private platformService : PlatformDetector) { }
-
+  
+  constructor(
+    private formBuilder : FormBuilder,
+    private authService : AuthService,
+    private router : Router,
+    private platformService : PlatformDetector) { }
+              
   ngOnInit() {
 
-    this.loginForm = this.formBuilder.group({
-          userName : ['', Validators.required],
-          password : ['', Validators.required]
+      this.loginForm = this.formBuilder.group({
+      userName : ['', Validators.required],
+      password : ['', Validators.required]
     });
   }
-
+  
   login() {
-     
+    
     const userName = this.loginForm.get('userName').value;
     const password = this.loginForm.get('password').value;
-
+    
     this.authService
-        .authenticate(userName, password)
-        .subscribe( 
-          () => 
-            this.router.navigate(['connection']),     
-          err => {     
+    .authenticate(userName, password)
+    .subscribe( 
+      () => 
+      this.router.navigate(['connection']),     
+      err => {     
             console.log(err); 
             this.loginForm.reset();
             //detectar a plataforma, se for browser, pode manipular diretamente o elemento do dom

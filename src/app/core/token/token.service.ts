@@ -7,13 +7,12 @@ export class TokenService {
 
     hasToken() {
 
-       return this.getToken() === null;
-      
+       return !!this.getToken();   
     }
 
     getToken() {
 
-        window.localStorage.getItem(KEY);
+        return window.localStorage.getItem(KEY);
     }
 
     setToken(token) {

@@ -5,6 +5,8 @@ import { MainTableComponent } from './main-table/main-table.component';
 import { LoginComponent } from './home/login/login.component';
 import { NotFoundComponent } from './errors/not-found/not-found.component';
 import { MainTableResolver } from './main-table/main-table.resolver';
+import { AuthGuard } from './core/auth/auth.guard';
+import { SignUpComponent } from './home/signup/signup.component';
 
 const routes: Routes = [
   {
@@ -21,8 +23,19 @@ const routes: Routes = [
       data: MainTableResolver
     }
   },  
-  {path: '', component: LoginComponent},
-  {path: '**', component: NotFoundComponent}
+  {
+    path: '', 
+    component: LoginComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'signup', 
+    component: SignUpComponent,
+  },
+  {
+    path: '**', 
+    component: NotFoundComponent
+  }
 ];
 
 @NgModule({

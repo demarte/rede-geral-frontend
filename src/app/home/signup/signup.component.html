@@ -1,0 +1,58 @@
+<h4 class="text-center"> Cadastrar novo usuário</h4>
+
+<form [formGroup]="signUpForm" class="form mt-4">
+    <div class="form-group">
+        <input  formControlName="login" placeholder="login" class="form-control" autofocus >
+        <app-vmessage 
+            *ngIf="signUpForm.get('login').errors?.required" 
+            text="nome requerido!"> 
+        </app-vmessage>
+        <app-vmessage 
+            *ngIf="signUpForm.get('login').errors?.minlength" 
+            text=" mínimo de caracteres: 2!"> 
+        </app-vmessage>
+        <app-vmessage 
+            *ngIf="signUpForm.get('login').errors?.maxlength" 
+            text=" máximo de caracteres: 30!"> 
+        </app-vmessage>
+        <app-vmessage 
+            *ngIf="signUpForm.get('login').errors?.pattern" 
+            text="apenas letras minusculas!"> 
+        </app-vmessage>
+    </div>
+    <div class="form-group">
+        <input formControlName="password" type="password" placeholder="senha" class="form-control">
+        <app-vmessage 
+            *ngIf="signUpForm.get('password').errors?.required" 
+            text=" senha requerida!"> 
+        </app-vmessage>
+        <app-vmessage 
+            *ngIf="signUpForm.get('password').errors?.minlength" 
+            text=" mínimo de caracteres: 4!"> 
+        </app-vmessage>
+        <app-vmessage 
+            *ngIf="signUpForm.get('password').errors?.maxlength" 
+            text=" máximo de caracteres: 30!"> 
+        </app-vmessage>
+    </div>
+    <div class="form-group">
+        <input formControlName="confirmPassword" type="password" placeholder="confirme sua senha" class="form-control">
+        <app-vmessage 
+            *ngIf="signUpForm.get('confirmPassword').errors?.required" 
+            text=" senha requerida!"> 
+        </app-vmessage>
+        <app-vmessage 
+            *ngIf="signUpForm.get('confirmPassword').errors?.minlength" 
+            text=" mínimo de caracteres: 4!"> 
+        </app-vmessage>
+        <app-vmessage 
+            *ngIf="signUpForm.get('confirmPassword').errors?.maxlength" 
+            text=" máximo de caracteres: 30!"> 
+        </app-vmessage>  
+    </div>
+    <button class="btn btn-primary btn-block">Register</button>
+
+    <p>Já é usuário?
+        <a [routerLink]="['']"> Login!</a>
+    </p>
+</form>

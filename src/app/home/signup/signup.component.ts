@@ -25,7 +25,7 @@ export class SignUpComponent implements OnInit {
             [
                 Validators.required,
                 Validators.minLength(4),
-                Validators.maxLength(30)
+                Validators.maxLength(30),
             ]
         ],
             confirmPassword: ['', 
@@ -37,5 +37,13 @@ export class SignUpComponent implements OnInit {
         ]
         });
         
+    }
+
+    checkPasswords() {
+        const password = this.signUpForm.get('password');
+        const confirmPassword = this.signUpForm.get('confirmPassword');
+
+        return password === confirmPassword ? null : 
+            this.signUpForm.get('password').setErrors(Validators.nullValidator);
     }
 }

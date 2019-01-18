@@ -34,6 +34,10 @@
             *ngIf="signUpForm.get('password').errors?.maxlength" 
             text=" máximo de caracteres: 30!"> 
         </app-vmessage>
+        <app-vmessage 
+            *ngIf="signUpForm.get('password').errors?.nullvalidator" 
+            text=" password invávido!"> 
+        </app-vmessage>
     </div>
     <div class="form-group">
         <input formControlName="confirmPassword" type="password" placeholder="confirme sua senha" class="form-control">

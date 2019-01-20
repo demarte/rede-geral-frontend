@@ -1,6 +1,6 @@
 <h4 class="text-center"> Cadastrar novo usuário</h4>
 
-<form [formGroup]="signUpForm" class="form mt-4">
+<form [formGroup]="signUpForm" class="form mt-4" (submit)="signUp()">
     <div class="form-group">
         <input  formControlName="login" placeholder="login" class="form-control" autofocus >
         <app-vmessage 
@@ -19,28 +19,39 @@
             *ngIf="signUpForm.get('login').errors?.pattern" 
             text="apenas letras minusculas!"> 
         </app-vmessage>
+        <app-vmessage 
+            *ngIf="signUpForm.get('login').errors?.userNameTaken" 
+            text="Usuário já cadastrado!"> 
+        </app-vmessage>
+        <span *ngIf="signUpForm.get('login').valid">
+            <i class="fa fa-check mr-1"></i>
+            <small class="text-success"> Usuário disponível!</small>
+        </span>
     </div>
     <div class="form-group">
-        <input formControlName="password" type="password" placeholder="senha" class="form-control">
+        <input #passwordInput 
+               formControlName="senha" 
+               type="password" 
+               placeholder="senha" 
+               class="form-control">
         <app-vmessage 
-            *ngIf="signUpForm.get('password').errors?.required" 
+            *ngIf="signUpForm.get('senha').errors?.required" 
             text=" senha requerida!"> 
         </app-vmessage>
         <app-vmessage 
-            *ngIf="signUpForm.get('password').errors?.minlength" 
+            *ngIf="signUpForm.get('senha').errors?.minlength" 
             text=" mínimo de caracteres: 4!"> 
         </app-vmessage>
         <app-vmessage 
-            *ngIf="signUpForm.get('password').errors?.maxlength" 
+            *ngIf="signUpForm.get('senha').errors?.maxlength" 
             text=" máximo de caracteres: 30!"> 
-        </app-vmessage>
-        <app-vmessage 
-            *ngIf="signUpForm.get('password').errors?.nullvalidator" 
-            text=" password invávido!"> 
         </app-vmessage>
     </div>
     <div class="form-group">
-        <input formControlName="confirmPassword" type="password" placeholder="confirme sua senha" class="form-control">
+        <input formControlName="confirmPassword" 
+               type="password" 
+               placeholder="confirme sua senha" 
+               class="form-control">
         <app-vmessage 
             *ngIf="signUpForm.get('confirmPassword').errors?.required" 
             text=" senha requerida!"> 
@@ -52,9 +63,17 @@
         <app-vmessage 
             *ngIf="signUpForm.get('confirmPassword').errors?.maxlength" 
             text=" máximo de caracteres: 30!"> 
-        </app-vmessage>  
+        </app-vmessage>
+        <app-vmessage 
+            *ngIf="signUpForm.get('confirmPassword').errors?.MatchPassword" 
+            text=" Senha inválida!"> 
+        </app-vmessage>
+        <span *ngIf="signUpForm.get('confirmPassword').valid">
+            <i class="fa fa-check mr-1"></i>
+            <small  class="text-success"> Senha válida!</small>  
+        </span>
     </div>
-    <button class="btn btn-primary btn-block">Register</button>
+    <button [disabled]="signUpForm.invalid || signUpForm.pending" class="btn btn-primary btn-block">Register</button>
 
     <p>Já é usuário?
         <a [routerLink]="['']"> Login!</a>

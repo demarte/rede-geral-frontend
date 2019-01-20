@@ -21,7 +21,7 @@ export class AuthService {
          { login, senha },
          { observe : 'response' })
        .pipe(tap(res => {
-          const authToken = res.headers.get('x-access-token');
+          const authToken = res.headers.get('authorization');
           this.userService.setToken(authToken);  
        }));
   }

@@ -4,11 +4,11 @@
         <div *ngIf="(user$ | async) as user; else login">
             <i class="fa fa-user-circle mr-1"></i>
             <a class="mr-1">{{user.sub}}</a>
-            <a class="navbar-text" (click)="logout()">(Logout)</a>
+            <button type="button" class="btn btn-light" (click)="logout()">Logout</button>
         </div>
         <ng-template #login>
             <span class="navbar-text"> 
-                <a [routerLink]="['']">Login</a>
+                <button type="button" class="btn btn-light" [routerLink]="['']">Login</button>
             </span>
         </ng-template>
     </nav>

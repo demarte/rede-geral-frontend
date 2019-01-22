@@ -22,6 +22,6 @@ export class ConnectionService {
 
     deleteConnection(id) {
         return this.http
-        .get(`${API}/connection/delete/${id}`);
+        .delete(`${API}/connection/delete/${id}`);
     }
 }

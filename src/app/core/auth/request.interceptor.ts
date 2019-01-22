@@ -1,16 +1,21 @@
-import { HttpInterceptor, HttpRequest, HttpHandler, HttpSentEvent, HttpHeaderResponse, HttpProgressEvent, HttpResponse, HttpUserEvent } from '@angular/common/http';
+import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
+import { Observable, throwError } from 'rxjs';
 
 import { TokenService } from '../token/token.service';
+import { catchError } from 'rxjs/operators';
+import { UserService } from '../user/user.service';
 
 @Injectable()
 export class RequestInterceptor implements HttpInterceptor {
 
-    constructor(private tokenService: TokenService) {}
+    constructor(
+        private tokenService: TokenService,
+        private userService: UserService,
+        private router: Router) {}
 
-    intercept(req: HttpRequest<any>, next: HttpHandler) : Observable<HttpSentEvent 
-    | HttpHeaderResponse | HttpProgressEvent | HttpResponse<any> | HttpUserEvent<any>> {
+    intercept(req: HttpRequest<any>, next: HttpHandler) : Observable<HttpEvent<any>> {
 
             if(this.tokenService.hasToken()) {
                 const token = this.tokenService.getToken();
@@ -20,7 +25,15 @@ export class RequestInterceptor implements HttpInterceptor {
                     }
                 });
             }
-            return next.handle(req);
+            return next
+                .handle(req)
+                    .pipe(catchError(err => {
+                        if (err instanceof HttpErrorResponse && err.status === 403)
+                            this.userService.logout();
+                            this.router.navigate(['home']);
+                            return throwError(err);    
+                    }))
+                
         }
 
 }

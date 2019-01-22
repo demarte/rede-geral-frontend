@@ -1,24 +1,29 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { UserNotTakenValidatorService } from './user-not-taken.validator.service';
 import { PasswordMatchValidator } from 'src/app/shared/validators/password-match.validator';
 import { SignUpService } from './signup.service';
 import { User } from 'src/app/models/user';
-import { Router } from '@angular/router';
+import { PlatformDetector } from 'src/app/core/platform-detector/platform-detector.service';
 
 @Component({
-    templateUrl: './signup.component.html'
+    templateUrl: './signup.component.html',
+    styleUrls: ['./signup.component.css'],
+    providers: [UserNotTakenValidatorService]
 })
 export class SignUpComponent implements OnInit {
 
     signUpForm: FormGroup;
+    @ViewChild('loginInput') loginInput: ElementRef<HTMLInputElement> 
 
     constructor(
         private formBuilder: FormBuilder,
         private userNotTakenValidatorService: UserNotTakenValidatorService,
         private signUpService: SignUpService,
-        private router: Router) {}
+        private router: Router,
+        private platformService: PlatformDetector) {}
     
     ngOnInit(): void {
 
@@ -48,6 +53,9 @@ export class SignUpComponent implements OnInit {
             ]
         ]
         }, { validator : PasswordMatchValidator.matchPassword });   
+
+        this.platformService.isPlatformBrowser() &&  
+            this.loginInput.nativeElement.focus();
     }
 
     signUp() {

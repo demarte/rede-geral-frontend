@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
  
 import { Connection } from '../models/connection';
 
@@ -14,15 +14,19 @@ export class MainTableComponent implements OnInit {
     filterIp: string = '';
     filterSwitch: string = '';
     data: Connection[] = [];
-    size: number;
     
-    constructor( private activatedRoute: ActivatedRoute ) {}
+    constructor(
+        private activatedRoute: ActivatedRoute,
+        private route: Router) {}
     
     ngOnInit(): void {
         
-        this.data = this.activatedRoute.snapshot.data.data.content;
-        this.size = this.activatedRoute.snapshot.data.data.size;  
-     
+        this.data = this.activatedRoute.snapshot.data.data.content; 
+    }
+
+    navigateToSwitch(id) {
+
+        this.route.navigate(['connection','switch', id]) 
     }
     
 }

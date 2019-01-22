@@ -8,17 +8,18 @@ import { DataGroup } from '../models/dataGroup';
 @Injectable({ providedIn : 'root' })
 export class MainTableResolver implements Resolve<Observable<DataGroup>> {
 
-    constructor(private service: ConnectionService) {}
+    constructor(
+        private connectionService: ConnectionService) {}
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) : Observable<DataGroup> {
 
         const id = route.params.id;
-
+ 
         if(!id) {
-            return this.service.listConnections();
+            return this.connectionService.listConnections();
         }
        else {
-           return this.service.listConnectionsBySwitch(id);     
+           return this.connectionService.listConnectionsBySwitch(id);     
         }
     }
 } 

@@ -5,7 +5,6 @@ import { AppComponent } from './app.component';
 
 import { TableModule } from './main-table/main-table.module';
 import { ErrorsModule } from './errors/errors.module';
-import { HomeModule } from './home/home.module';
 import { CoreModule } from './core/core.module';
 
 @NgModule({
@@ -14,11 +13,10 @@ import { CoreModule } from './core/core.module';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
     TableModule,
     ErrorsModule,
-    HomeModule,
-    CoreModule
+    CoreModule,
+    AppRoutingModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

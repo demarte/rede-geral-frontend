@@ -23,10 +23,13 @@ export class LoginComponent implements OnInit {
               
   ngOnInit() {
 
-      this.loginForm = this.formBuilder.group({
+    this.loginForm = this.formBuilder.group({
       userName : ['', Validators.required],
       password : ['', Validators.required]
     });
+
+    this.platformService.isPlatformBrowser() &&  
+      this.userNameInput.nativeElement.focus();
   }
   
   login() {

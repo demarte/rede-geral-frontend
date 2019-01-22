@@ -1,11 +1,11 @@
 <h4 class="text-center"> Cadastrar novo usuário</h4>
 
-<form [formGroup]="signUpForm" class="form mt-4" (submit)="signUp()">
+<form [formGroup]="signUpForm" class="form-signin" (submit)="signUp()">
     <div class="form-group">
-        <input  formControlName="login" placeholder="login" class="form-control" autofocus >
+        <input  #loginInput formControlName="login" placeholder="login" class="form-control">
         <app-vmessage 
             *ngIf="signUpForm.get('login').errors?.required" 
-            text="nome requerido!"> 
+            text="campo obrigatório!"> 
         </app-vmessage>
         <app-vmessage 
             *ngIf="signUpForm.get('login').errors?.minlength" 
@@ -36,7 +36,7 @@
                class="form-control">
         <app-vmessage 
             *ngIf="signUpForm.get('senha').errors?.required" 
-            text=" senha requerida!"> 
+            text=" campo obrigatório!"> 
         </app-vmessage>
         <app-vmessage 
             *ngIf="signUpForm.get('senha').errors?.minlength" 
@@ -54,7 +54,7 @@
                class="form-control">
         <app-vmessage 
             *ngIf="signUpForm.get('confirmPassword').errors?.required" 
-            text=" senha requerida!"> 
+            text=" campo obrigatório!"> 
         </app-vmessage>
         <app-vmessage 
             *ngIf="signUpForm.get('confirmPassword').errors?.minlength" 

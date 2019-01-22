@@ -1,0 +1,59 @@
+<div class="container">
+  <h3 class="text-center">Nova conexão</h3>
+  <form [formGroup]="connectionForm" (submit)="addConnection()">
+    <div class="form-row">
+
+      <div class="form-group col-md-6">
+        <input formControlName="name" type="text" class="form-control"  placeholder="Equipamento">
+      </div>
+      <div class="form-group col-md-6">
+        <input formControlName="ip" type="text" class="form-control"  placeholder="IP">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <select formControlName="sw" class="form-control">
+          <option *ngFor="let sw of switchs">{{sw.nome}}</option>
+        </select>
+      </div>
+      <div class="form-group col-md-4">
+        <select formControlName="porta" class="form-control" >
+          <option>Porta</option>
+        </select>
+      </div>
+      <div class="form-group col-md-4">
+        <select formControlName="interface" class="form-control">
+          <option *ngFor="let item of interfaces">{{item}}</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <input formControlName="login" type="text" class="form-control"  placeholder="Login">
+      </div>
+      <div class="form-group col-md-6">
+        <input formControlName="senha" type="text" class="form-control"  placeholder="Senha">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-2">
+          <select class="form-control">
+            <option *ngFor="let item of tipos">{{item}}</option>
+          </select>
+      </div>
+      <div class="form-group col-md-5">
+          <input formControlName="untags" type="text" class="form-control"  placeholder="Vlans Untagged">
+        </div>
+        <div class="form-group col-md-5">
+            <input formControlName="tags" type="text" class="form-control"  placeholder="Vlans Tagged">
+        </div>
+    </div>
+    <div class="form-group">
+      <div class="form-check">
+        <input formControlName="monitoravel" class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+        <label class="form-check-label" for="defaultCheck1">Monitoravel</label>
+      </div>
+    </div>
+    <button [disabled]="connectionForm.invalid || connectionForm.pending" type="submit" class="btn btn-success">Submit</button>  
+  </form>
+</div>

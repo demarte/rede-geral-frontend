@@ -1,9 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Observable } from 'rxjs';
+
 import { Switch } from 'src/app/models/switch';
-import { SwitchService } from 'src/app/core/switch/switch.service';
+import { SwitchService } from 'src/app/core/services/switch.service';
 import { Vlan } from 'src/app/models/vlan';
-import { VlanService } from 'src/app/core/vlan/vlan.service';
+import { VlanService } from 'src/app/core/services/vlan.service';
+import { ConnectionService } from 'src/app/core/services/connection.service';
+import { IpNotTakenValidator } from './ip-not-taken.validador.service';
 
 @Component({
 
@@ -12,16 +16,21 @@ import { VlanService } from 'src/app/core/vlan/vlan.service';
 export class FormConnection implements OnInit{
     
     connectionForm: FormGroup;
-    switchs: Switch[];
-    vlans: Vlan[];
+    switchs$: Observable<Switch[]>;
+    vlans$: Observable<Vlan[]>;
+    portas$: Observable<String[]>;
+    selectedSwitch: Switch;
     tipos = ['acesso', 'hybrid'];
     interfaces = ['GE', 'XGE (10G)', 'XGE base-T', 'FGE (40G)'];
+    
 
     
     constructor(
         private formBuilder: FormBuilder,
         private switchService: SwitchService,
-        private vlanService: VlanService) {}
+        private connectionService: ConnectionService,
+        private vlanService: VlanService,
+        private ipNotTakenValidatorService: IpNotTakenValidator) {}
     
     ngOnInit(): void {
      
@@ -29,10 +38,25 @@ export class FormConnection implements OnInit{
         this.getVlans();
         
         this.connectionForm = this.formBuilder.group({
-            name : ['', Validators.required],
-            ip : ['', Validators.required],
-            sw : [''],
-            porta : [''],
+            name : ['',
+                [
+                    Validators.required,
+                    Validators.maxLength(50)  
+                ] 
+            ],
+            ip : ['', 
+                [
+                    Validators.required,
+                    Validators.pattern(/^([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])$/)
+                ],
+                    this.ipNotTakenValidatorService.checkIpTaken()
+            ],
+            sw : ['',
+                 Validators.required
+            ],
+            porta : ['',
+                Validators.required 
+            ],
             interface : [''],
             login : [''],
             senha : [''],
@@ -46,22 +70,22 @@ export class FormConnection implements OnInit{
     
     getSwitchs() {
         
-        this.switchService
-            .getSwitchs()
-            .subscribe(switchs => this.switchs = switchs);  
+        this.switchs$ = this.switchService.getSwitchs()          
+    }
+
+    getPortas(id) {
+
+        this.portas$ = this.connectionService.getAvailablePorts(id);
+               
     }
 
     getVlans() {
         
-        this.vlanService
-            .getVlans()
-            .subscribe(vlans => this.vlans = vlans);  
+        this.vlans$ = this.vlanService.getVlans()
     }
 
     addConnection() {
-        console.log('adicionar conexão');
-        
+          
     }
-
 
 }

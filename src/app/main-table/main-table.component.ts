@@ -20,13 +20,12 @@ export class MainTableComponent implements OnInit {
         private route: Router) {}
     
     ngOnInit(): void {
-        
+       
         this.data = this.activatedRoute.snapshot.data.data.content; 
     }
 
     navigateToSwitch(id) {
 
         this.route.navigate(['connection','switch', id]) 
-    }
-    
+    } 
 }

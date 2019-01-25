@@ -2,38 +2,38 @@
 
 <form [formGroup]="signUpForm" class="form-signin" (submit)="signUp()">
     <div class="form-group">
-        <input  #loginInput formControlName="login" placeholder="login" class="form-control">
-        <app-vmessage 
+        <input  #loginInput 
+                formControlName="login" 
+                placeholder="login" 
+                [ngClass]="{'form-control':true, 'is-valid': signUpForm.get('login').valid, 'is-invalid': signUpForm.get('login').errors}">
+        <app-vmessage
             *ngIf="signUpForm.get('login').errors?.required" 
             text="campo obrigatório!"> 
         </app-vmessage>
         <app-vmessage 
-            *ngIf="signUpForm.get('login').errors?.minlength" 
+            *ngIf="signUpForm.get('login').errors?.minlength"        
             text=" mínimo de caracteres: 2!"> 
         </app-vmessage>
         <app-vmessage 
-            *ngIf="signUpForm.get('login').errors?.maxlength" 
+            *ngIf="signUpForm.get('login').errors?.maxlength"       
             text=" máximo de caracteres: 30!"> 
         </app-vmessage>
         <app-vmessage 
-            *ngIf="signUpForm.get('login').errors?.pattern" 
+            *ngIf="signUpForm.get('login').errors?.pattern"         
             text="apenas letras minusculas!"> 
         </app-vmessage>
         <app-vmessage 
-            *ngIf="signUpForm.get('login').errors?.userNameTaken" 
+            *ngIf="signUpForm.get('login').errors?.userNameTaken"    
             text="Usuário já cadastrado!"> 
-        </app-vmessage>
-        <span *ngIf="signUpForm.get('login').valid">
-            <i class="fa fa-check mr-1"></i>
-            <small class="text-success"> Usuário disponível!</small>
-        </span>
+        </app-vmessage> 
+        
     </div>
     <div class="form-group">
         <input #passwordInput 
                formControlName="senha" 
                type="password" 
                placeholder="senha" 
-               class="form-control">
+               [ngClass]="{'form-control':true, 'is-valid': signUpForm.get('senha').valid, 'is-invalid': signUpForm.get('senha').errors}">
         <app-vmessage 
             *ngIf="signUpForm.get('senha').errors?.required" 
             text=" campo obrigatório!"> 
@@ -51,7 +51,7 @@
         <input formControlName="confirmPassword" 
                type="password" 
                placeholder="confirme sua senha" 
-               class="form-control">
+               [ngClass]="{'form-control':true, 'is-valid': signUpForm.get('confirmPassword').valid, 'is-invalid': signUpForm.get('confirmPassword').errors}">
         <app-vmessage 
             *ngIf="signUpForm.get('confirmPassword').errors?.required" 
             text=" campo obrigatório!"> 
@@ -68,10 +68,6 @@
             *ngIf="signUpForm.get('confirmPassword').errors?.MatchPassword" 
             text=" Senha inválida!"> 
         </app-vmessage>
-        <span *ngIf="signUpForm.get('confirmPassword').valid">
-            <i class="fa fa-check mr-1"></i>
-            <small  class="text-success"> Senha válida!</small>  
-        </span>
     </div>
     <button [disabled]="signUpForm.invalid || signUpForm.pending" class="btn btn-primary btn-block">Register</button>
 

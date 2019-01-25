@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { Resolve, RouterStateSnapshot, ActivatedRouteSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
 
-import { ConnectionService } from './services/connection.service';
 import { DataGroup } from '../models/dataGroup';
+import { ConnectionService } from '../core/services/connection.service';
 
 @Injectable({ providedIn : 'root' })
 export class MainTableResolver implements Resolve<Observable<DataGroup>> {
@@ -13,13 +13,6 @@ export class MainTableResolver implements Resolve<Observable<DataGroup>> {
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) : Observable<DataGroup> {
 
-        const id = route.params.id;
- 
-        if(!id) {
-            return this.connectionService.listConnections();
-        }
-       else {
-           return this.connectionService.listConnectionsBySwitch(id);     
-        }
+        return this.connectionService.listConnections(); 
     }
 } 

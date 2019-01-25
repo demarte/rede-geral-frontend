@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from '../user/user.service';
+
 import { Observable } from 'rxjs';
-import { User } from '../user/user';
+import { User } from '../services/user/user';
+import { UserService } from '../services/user/user.service';
+
 
 @Component({
     selector : 'app-footer',

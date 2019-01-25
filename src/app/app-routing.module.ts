@@ -5,6 +5,7 @@ import { MainTableComponent } from './main-table/main-table.component';
 import { NotFoundComponent } from './errors/not-found/not-found.component';
 import { MainTableResolver } from './main-table/main-table.resolver';
 import { AuthGuard } from './core/auth/auth.guard';
+import { MainTableSwitchResolver } from './main-table/main-table-switch.resolver';
 
 
 const routes: Routes = [
@@ -19,7 +20,8 @@ const routes: Routes = [
   },
   {
     path: 'form',
-    loadChildren: './connection/connection.module#ConnectionModule'
+    loadChildren: './connection/connection.module#ConnectionModule',
+    canActivate : [AuthGuard]
   },
   {
     path: 'connection', 
@@ -33,8 +35,9 @@ const routes: Routes = [
     path: 'connection/switch/:id', 
     component: MainTableComponent,
     resolve: {
-      data: MainTableResolver
-    }
+      data: MainTableSwitchResolver
+    },
+    canActivate : [AuthGuard]
   },  
   {
     path: '**', 

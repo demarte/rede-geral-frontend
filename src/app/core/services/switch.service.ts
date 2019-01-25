@@ -12,4 +12,5 @@ export class SwitchService {
     getSwitchs() {
         return this.http.get<Switch[]>(API_URL);
     }
+
 }

@@ -46,8 +46,8 @@
             <tr *ngFor="let item of mf.data" >
                 <td>{{item.equipamento.nome}}</td>
                 <td>{{item.equipamento.ip}}</td>
-                <td>
-                    <a (click)="navigateToSwitch(item.sw.id)">{{item.sw.nome}}</a> 
+                <td>                  
+                    <a (click)="navigateToSwitch(item.sw.id)">{{item.sw.nome}}</a>
                 </td>
                 <td>{{item.porta}}</td>
                 <td>{{item.sw.localizacao.localizacao}}</td>

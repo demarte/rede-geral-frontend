@@ -1,7 +1,6 @@
-<div class="text-center m-3">
+<div class="text-center m-1">
   
-    <table class="table table-striped m-4" [mfData]="data | filterByNome: filterNome : filterIp : filterSwitch" 
-    #mf="mfDataTable" [mfRowsOnPage]="20" >
+    <table class="table table-striped table-bordered">
         <thead>
             <tr>
                 <th style="width: 15%">
@@ -14,40 +13,40 @@
                     <app-search placeholder="Switch" (onTyping)='filterSwitch = $event'></app-search>
                 </th>
                 <th style="width: 5%">
-                    <mfDefaultSorter by="porta">Porta</mfDefaultSorter>
+                    Porta
                 </th>
                 <th style="width: 5%">
-                    <mfDefaultSorter by="sw.localizacao.localizacao">Localização</mfDefaultSorter>
+                    Localização
                 </th>
                 <th style="width: 5%">
-                    <mfDefaultSorter by="tipo">Tipo</mfDefaultSorter>
+                    Tipo
                 </th>
                 <th style="width: 5%">
-                    <mfDefaultSorter by="interfaceDeRede">Interface</mfDefaultSorter>
+                    Interface
                 </th>
                 <th style="width: 10%">
-                    <mfDefaultSorter by="vlan.nome">Vlans (untag)</mfDefaultSorter>
+                    Vlans (untag)
                 </th>
                 <th style="width: 10%">
-                    <mfDefaultSorter by="vlan.nome">Vlans (tag)</mfDefaultSorter>
+                    Vlans (tag)
                 </th>
                 <th style="width: 10%">
-                    <mfDefaultSorter by="equipamento.login">Login</mfDefaultSorter>
+                    Login
                 </th>
                 <th style="width: 10%">
-                    <mfDefaultSorter by="equipamento.senha">Senha</mfDefaultSorter>
+                    Senha
                 </th>
                 <th style="width: 5%">
-                    <mfDefaultSorter by="equipamento.monitoravel">Monitoravel</mfDefaultSorter>
+                    Monitoravel
                 </th>
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let item of mf.data" >
+            <tr *ngFor="let item of data | filterByNome: filterNome : filterIp : filterSwitch" >
                 <td>{{item.equipamento.nome}}</td>
                 <td>{{item.equipamento.ip}}</td>
                 <td>                  
-                    <a (click)="navigateToSwitch(item.sw.id)">{{item.sw.nome}}</a>
+                    <a [routerLink]="['switch',(item.sw.id)]">{{item.sw.nome}}</a>
                 </td>
                 <td>{{item.porta}}</td>
                 <td>{{item.sw.localizacao.localizacao}}</td>
@@ -57,16 +56,24 @@
                 <td><span *ngFor="let tag of item.tags">{{tag.nome}} </span></td>
                 <td>{{item.equipamento.login}}</td>
                 <td>{{item.equipamento.senha}}</td>
-                <td [ngClass]="{'monitoravel' : item.equipamento.monitoravel}">{{item.equipamento.monitoravel}}</td>
+                <td [ngClass]="{'monitoravel' : item.equipamento.monitoravel}">
+                    <span *ngIf="item.equipamento.monitoravel; else no"> 
+                        Sim 
+                    </span>
+                    <ng-template #no>
+                        <span> Não </span>
+                    </ng-template>
+                </td>
             </tr>
         </tbody>
         <tfoot>
-            <tr>
-                <td colspan="4">
-                    <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
-                </td>
-            </tr>
-            <p class="text-center text-muted" *ngIf="!mf.data.length">
+            <ngb-pagination class="d-flex justify-content-start" 
+                            [collectionSize]="totalElements" 
+                            [(page)]="page" 
+                            (pageChange)="pageChange()"
+                            [pageSize]="size">
+            </ngb-pagination>
+            <p class="text-center text-muted" *ngIf="!data.length">
                 Nenhum registro encontrado
             </p>
         </tfoot>

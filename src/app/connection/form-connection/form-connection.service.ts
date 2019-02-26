@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Connection } from 'src/app/models/connection';
 
 const API_URL = 'http://localhost:8080/connection'
 
@@ -16,9 +15,9 @@ export class FormConnectionService{
         return this.http.get(`${API_URL}/exists/${ip}`);
     }
 
-    saveConnection(connection: Connection) {
+    saveConnection(data) {
 
-        this.http.post(API_URL, connection);
+        return this.http.post(API_URL, data);
     }
 
 }

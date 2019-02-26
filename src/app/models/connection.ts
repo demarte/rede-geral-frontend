@@ -9,5 +9,6 @@ export interface Connection {
     interfaceDeRede:string,
     equipamento: Equipamento,
     sw: Switch,
-    vlan: Vlan
+    untags: Vlan[],
+    tags: Vlan[]
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 
 import { Switch } from 'src/app/models/switch';
@@ -8,6 +9,8 @@ import { Vlan } from 'src/app/models/vlan';
 import { VlanService } from 'src/app/core/services/vlan.service';
 import { ConnectionService } from 'src/app/core/services/connection.service';
 import { IpNotTakenValidator } from './ip-not-taken.validador.service';
+import { FormConnectionService } from './form-connection.service';
+
 
 @Component({
 
@@ -19,18 +22,18 @@ export class FormConnection implements OnInit{
     switchs$: Observable<Switch[]>;
     vlans$: Observable<Vlan[]>;
     portas$: Observable<String[]>;
-    selectedSwitch: Switch;
     tipos = ['acesso', 'hybrid'];
     interfaces = ['GE', 'XGE (10G)', 'XGE base-T', 'FGE (40G)'];
-    
-
+    idSwitch: number;
     
     constructor(
         private formBuilder: FormBuilder,
         private switchService: SwitchService,
         private connectionService: ConnectionService,
         private vlanService: VlanService,
-        private ipNotTakenValidatorService: IpNotTakenValidator) {}
+        private ipNotTakenValidatorService: IpNotTakenValidator,
+        private formConnectionService: FormConnectionService,
+        private router: Router) {}
     
     ngOnInit(): void {
      
@@ -38,7 +41,7 @@ export class FormConnection implements OnInit{
         this.getVlans();
         
         this.connectionForm = this.formBuilder.group({
-            name : ['',
+            nome : ['',
                 [
                     Validators.required,
                     Validators.maxLength(50)  
@@ -57,10 +60,14 @@ export class FormConnection implements OnInit{
             porta : ['',
                 Validators.required 
             ],
-            interface : [''],
+            interfaceDeRede : [this.interfaces[0],
+                Validators.required 
+            ],
             login : [''],
             senha : [''],
-            tipo : [''],
+            tipo : [this.tipos[0],
+                Validators.required 
+            ],
             untags : [''],
             tags : [''],
             monitoravel : [false],
@@ -75,8 +82,7 @@ export class FormConnection implements OnInit{
 
     getPortas(id) {
 
-        this.portas$ = this.connectionService.getAvailablePorts(id);
-               
+        this.portas$ = this.connectionService.getAvailablePorts(id);       
     }
 
     getVlans() {
@@ -84,8 +90,35 @@ export class FormConnection implements OnInit{
         this.vlans$ = this.vlanService.getVlans()
     }
 
-    addConnection() {
-          
-    }
+    buildConnection() {
 
+        const untag = this.connectionForm.get('untags').value;
+        const data = ({
+            "porta" : this.connectionForm.get('porta').value,
+            "tipo" : this.connectionForm.get('tipo').value,
+            "interfaceDeRede" : this.connectionForm.get('interfaceDeRede').value,
+            "equipamento" : {
+                "nome" : this.connectionForm.get('nome').value,
+                "ip" : this.connectionForm.get('ip').value,
+                "login" : this.connectionForm.get('login').value,
+                "senha" : this.connectionForm.get('senha').value,
+                "monitoravel" : this.connectionForm.get('monitoravel').value
+            },
+            "sw" : {
+                "id" : this.connectionForm.get('sw').value
+            },
+            "untags" : untag ? [{
+                    "id" : untag
+                }] : [],
+            "tags" : []
+            });
+
+            return data;
+    }
+    
+    addConnection() {
+        this.formConnectionService
+            .saveConnection(this.buildConnection())
+            .subscribe(() => this.router.navigate(['connection', 'switch', this.connectionForm.get('sw').value]));   
+    }
 }

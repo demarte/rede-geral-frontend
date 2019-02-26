@@ -3,10 +3,10 @@
   <form [formGroup]="connectionForm" (submit)="addConnection()">
     <div class="form-row">
       <div class="form-group col-md-4">
-        <input formControlName="name" 
+        <input formControlName="nome" 
                type="text"  
                placeholder="Equipamento"
-               [ngClass]="{'form-control':true, 'is-valid': connectionForm.get('name').valid, 'is-invalid': connectionForm.get('name').errors}">
+               [ngClass]="{'form-control':true, 'is-valid': connectionForm.get('nome').valid, 'is-invalid': connectionForm.get('nome').errors}">
       </div>
       <div class="form-group col-md-4">
         <input formControlName="ip" 
@@ -32,19 +32,23 @@
         </select>
       </div>
       <div class="form-group col-md-4">
-        <select formControlName="interface" class="form-control">
-          <option *ngFor="let item of interfaces">{{item}}</option>
+        <select formControlName="interfaceDeRede"
+                [ngClass]="{'form-control':true, 'is-valid': connectionForm.get('interfaceDeRede').valid, 'is-invalid': connectionForm.get('interfaceDeRede').errors}">
+          <option *ngFor="let item of interfaces" [value]="item">{{item}}</option>
         </select>
       </div>
     </div>
     <div class="form-row">
       <div class="form-group col-md-4">
-        <select class="form-control">
-          <option *ngFor="let item of tipos">{{item}}</option>
+        <select formControlName="tipo"
+                [ngClass]="{'form-control':true, 'is-valid': connectionForm.get('tipo').valid, 'is-invalid': connectionForm.get('tipo').errors}">
+          <option *ngFor="let item of tipos" [value]="item">{{item}}</option>
         </select>
       </div>
       <div class="form-group col-md-4">
-        <input formControlName="untags" type="text" class="form-control"  placeholder="Vlans Untagged">
+        <select formControlName="untags" type="text" class="form-control"  placeholder="Vlans Untagged">
+            <option *ngFor="let vlan of vlans$ | async" [value]="vlan.id">{{vlan.nome}}</option>
+        </select>
       </div>
       <div class="form-group col-md-4">
         <input formControlName="tags" type="text" class="form-control"  placeholder="Vlans Tagged">
@@ -64,6 +68,6 @@
         </div>
       </div>
     </div>
-    <button [disabled]="connectionForm.invalid || connectionForm.pending" type="submit" class="btn btn-success">Submit</button>  
+    <button [disabled]="connectionForm.invalid || connectionForm.pending" type="submit" class="btn btn-success">Cadastrar</button>  
   </form>
 </div>

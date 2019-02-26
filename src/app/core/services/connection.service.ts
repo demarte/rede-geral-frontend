@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 import { DataGroup } from '../../models/dataGroup';
 
@@ -10,9 +10,10 @@ export class ConnectionService {
     
     constructor(private http: HttpClient) {}
     
-    listConnections() {  
+    listConnectionsPaginated(page: number) {
+        const params = new HttpParams().append('page', page.toString());
         return this.http
-            .get<DataGroup>(API_URL);   
+            .get<DataGroup>(API_URL, { params });
     }
 
     listConnectionsBySwitch(id) {

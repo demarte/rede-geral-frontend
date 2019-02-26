@@ -13,6 +13,6 @@ export class MainTableResolver implements Resolve<Observable<DataGroup>> {
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) : Observable<DataGroup> {
 
-        return this.connectionService.listConnections(); 
+        return this.connectionService.listConnectionsPaginated(0); 
     }
 } 
